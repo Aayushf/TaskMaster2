@@ -10,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
-import org.jetbrains.anko.find
-import org.jetbrains.anko.info
+import io.realm.Realm
+import io.realm.RealmResults
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.startActivity
 
 
@@ -27,25 +27,10 @@ class RecyclerFragment : Fragment(), AnkoLogger {
 
     // TODO: Rename and change types of parameters
 
-    private var done: Boolean = false
-    var rv: RecyclerView? = null
-    val fastAdapter: FastItemAdapter<TaskViewItem> = FastItemAdapter()
-    var listoftaskview: MutableList<TaskViewItem>? = null
-        set(value) {
-            fastAdapter.clear()
-            fastAdapter.add(value)
-            rv?.adapter = fastAdapter
-            info(rv?.adapter.toString())
-            info("Set ListOfTaskView $value")
-        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            done = arguments.getBoolean(DONE)
-        }
-        info("OnCreate")
 
 
     }
@@ -54,20 +39,33 @@ class RecyclerFragment : Fragment(), AnkoLogger {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         val v: View = inflater!!.inflate(R.layout.fragment_recycler, container, false)
-        rv = v.find(R.id.rvfrag)
+        val rv: RecyclerView = v.find(R.id.rvfrag)
         rv?.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         info("OnCreateView")
-
+        var fastAdapter: FastItemAdapter<TaskViewItem> = FastItemAdapter()
         fastAdapter.withOnLongClickListener({ v, _, _, _ ->
             startActivity<AdderActivity>("task" to v.find<TextView>(R.id.tvtaskcard).text.toString())
             Log.d("RecyclerFragment", "LongClicked")
             true
         })
+        Realm.init(activity)
+        val tagtodisplay: String? = arguments.getString("tagtodisplay")
+        var listoftasks: RealmResults<Task>
+        if (tagtodisplay != null) {
+            listoftasks = Realm.getDefaultInstance().where(Task::class.java).equalTo("done", arguments.getBoolean("done")).contains("tag", tagtodisplay).findAll()
 
-        (rv as RecyclerView).adapter = fastAdapter
 
-        (rv as RecyclerView).layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        } else {
+            listoftasks = Realm.getDefaultInstance().where(Task::class.java).equalTo("done", arguments.getBoolean("done")).findAll()
+        }
+        warn(listoftasks.size)
+        fastAdapter.add(TaskViewItem.getListOfTaskView(listoftasks))
+        
+        rv.adapter = fastAdapter
+
+        rv.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         debug("OnCreate Called")
 
 
@@ -91,13 +89,16 @@ class RecyclerFragment : Fragment(), AnkoLogger {
          * @return A new instance of fragment RecyclerFragment.
          */
         // TODO: Rename and change types and number of parameters
-        fun newInstance(): RecyclerFragment {
+        fun newInstance(tagtodiaplsy: String?, done: Boolean): RecyclerFragment {
             val fragment = RecyclerFragment()
             val args = Bundle()
+            args.putString("tagtodisplay", tagtodiaplsy)
+            args.putBoolean("done", done)
             fragment.arguments = args
             Log.d("RecyclerFragment", "NewInstace Called")
             return fragment
         }
+
     }
 
 }// Required empty public constructor

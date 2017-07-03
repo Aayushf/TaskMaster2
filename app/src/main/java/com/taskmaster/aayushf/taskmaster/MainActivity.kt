@@ -58,8 +58,6 @@ class MainActivity : AppCompatActivity() {
         // primary sections of the activity.
         mSectionsPagerAdapter = TasksTabAdapter(supportFragmentManager)
         Realm.init(this)
-        ((mSectionsPagerAdapter as TasksTabAdapter).getItem(0) as RecyclerFragment).listoftaskview = TaskViewItem.getListOfTaskView(Realm.getDefaultInstance().where(Task::class.java).findAll())
-        ((mSectionsPagerAdapter as TasksTabAdapter).getItem(1) as RecyclerFragment).listoftaskview = TaskViewItem.getListOfTaskView(Realm.getDefaultInstance().where(Task::class.java).findAll())
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container) as ViewPager?
         mViewPager!!.adapter = mSectionsPagerAdapter
@@ -127,19 +125,8 @@ class MainActivity : AppCompatActivity() {
         }
         for (tag: String in allTags) {
             dwr.addItem(SecondaryDrawerItem().withName(tag).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
-                var tasksdone = Realm.getDefaultInstance().where(Task::class.java).like("tag", ".*$tag.*").equalTo("done", false).findAll()
-                var taskspending = Realm.getDefaultInstance().where(Task::class.java).like("tag", ".*$tag.*").equalTo("done", false).findAll()
-                var donetaskv: MutableList<TaskViewItem> = arrayListOf()
-                var pedingtaskv: MutableList<TaskViewItem> = arrayListOf()
-                tasksdone.forEach { t: Task? ->
-                    donetaskv.add(TaskViewItem(t))
-                }
-                taskspending.forEach { t: Task? ->
-                    pedingtaskv.add(TaskViewItem(t))
-                }
-                (mSectionsPagerAdapter?.getItem(0) as RecyclerFragment).listoftaskview = pedingtaskv
-                (mSectionsPagerAdapter?.getItem(1) as RecyclerFragment).listoftaskview = donetaskv
-
+                mSectionsPagerAdapter?.tagtodisplay = tag
+                mSectionsPagerAdapter?.notifyDataSetChanged()
                 true
             })
         }

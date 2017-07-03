@@ -10,7 +10,11 @@ import android.util.Log
  * Created by aayushf on 13/6/17.
  */
 class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    var tagtodisplay: String? = null
+        set(value) {
+            this.notifyDataSetChanged()
 
+        }
     override fun getItemPosition(`object`: Any?): Int {
         Log.d("Adapter", "getItemAtPosition")
         return PagerAdapter.POSITION_NONE
@@ -19,10 +23,10 @@ class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         if (position == 0) {
-            return RecyclerFragment.newInstance()
+            return RecyclerFragment.newInstance(null, false)
 
         } else {
-            return RecyclerFragment.newInstance()
+            return RecyclerFragment.newInstance(null, true)
         }
 
     }
