@@ -5,19 +5,25 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.util.Log
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 /**
  * Created by aayushf on 13/6/17.
  */
-class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm), AnkoLogger {
     var tagtodisplay: String? = null
-        set(value) {
-            this.notifyDataSetChanged()
 
-        }
+    fun setTagToDisplay(tagtodisplay: String) {
+        this.tagtodisplay = tagtodisplay
+        this@TasksTabAdapter.notifyDataSetChanged()
+
+    }
     override fun getItemPosition(`object`: Any?): Int {
-        Log.d("Adapter", "getItemAtPosition")
-        return PagerAdapter.POSITION_NONE
+        Log.d("Adapter", "getItemAtPosition$tagtodisplay")
+        val rf = `object` as RecyclerFragment?
+        rf!!.refreshFragment(tagtodisplay!!)
+        return super.getItemPosition(`object`)
     }
 
 

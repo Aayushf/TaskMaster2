@@ -16,9 +16,11 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AnkoLogger {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -123,12 +125,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-        for (tag: String in allTags) {
+
+        allTags.forEach { tag: String? ->
             dwr.addItem(SecondaryDrawerItem().withName(tag).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
-                mSectionsPagerAdapter?.tagtodisplay = tag
-                mSectionsPagerAdapter?.notifyDataSetChanged()
+                info(tag)
+                mSectionsPagerAdapter?.setTagToDisplay(tag!!)
                 true
             })
+
         }
 
 

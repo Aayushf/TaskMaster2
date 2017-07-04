@@ -24,6 +24,7 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
     var taskfont: Typeface? = null
     var tagfont: Typeface? = null
     var datesfont: Typeface? = null
+    var taskpk: Int? = task?.primk
 
     override fun getType(): Int {
         return 0

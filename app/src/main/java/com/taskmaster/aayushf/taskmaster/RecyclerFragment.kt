@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.IItem
+import com.mikepenz.fastadapter.IItemAdapter
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import io.realm.Realm
 import io.realm.RealmResults
@@ -26,7 +28,7 @@ import org.jetbrains.anko.support.v4.startActivity
 class RecyclerFragment : Fragment(), AnkoLogger {
 
     // TODO: Rename and change types of parameters
-
+    lateinit var v: View
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,7 @@ class RecyclerFragment : Fragment(), AnkoLogger {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        val v: View = inflater!!.inflate(R.layout.fragment_recycler, container, false)
+        v = inflater!!.inflate(R.layout.fragment_recycler, container, false)
         val rv: RecyclerView = v.find(R.id.rvfrag)
         rv?.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         info("OnCreateView")
@@ -62,7 +64,7 @@ class RecyclerFragment : Fragment(), AnkoLogger {
         }
         warn(listoftasks.size)
         fastAdapter.add(TaskViewItem.getListOfTaskView(listoftasks))
-        
+
         rv.adapter = fastAdapter
 
         rv.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -101,4 +103,20 @@ class RecyclerFragment : Fragment(), AnkoLogger {
 
     }
 
-}// Required empty public constructor
+    fun refreshFragment(tagtodisplay: String) {
+        info("In The Refresher " + tagtodisplay)
+        val rv: RecyclerView = v.findViewById(R.id.rvfrag) as RecyclerView
+        val fadap: FastItemAdapter<TaskViewItem> = rv.adapter as FastItemAdapter<TaskViewItem>
+        fadap.itemFilter.withFilterPredicate(IItemAdapter.Predicate { item, constraint ->
+
+            val b = !Realm.getDefaultInstance().where(Task::class.java).equalTo("primk", (item as TaskViewItem).taskpk).findFirst().tag?.contains(tagtodisplay)!!
+            info(b)
+            return@Predicate b
+
+        })
+        fadap.filter(tagtodisplay)
+    }
+
+}
+
+// Required empty public constructor
