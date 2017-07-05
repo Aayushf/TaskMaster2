@@ -23,7 +23,7 @@ class Notifier : BroadcastReceiver() {
         val r = Realm.getDefaultInstance()
         i.putExtra("taskprimk", pk)
         val t = r.where(Task::class.java).equalTo("primk", pk).findFirst()
-        val editAction: PendingIntent = PendingIntent.getActivity(context, 1, Intent(context, AdderActivity::class.java).putExtra("task", t.task), 0)
+        val editAction: PendingIntent = PendingIntent.getActivity(context, 1, Intent(context, AdderActivity::class.java).putExtra("task", t.primk), 0)
         var doneaction: PendingIntent = PendingIntent.getActivity(context, 0, i, 0)
         val b = NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_check_circle_black_24dp).setContentTitle(t.task).setContentText(t.tag).addAction(R.drawable.ic_check_circle_black_24dp, "Done", doneaction).addAction(R.drawable.ic_mode_edit_black_24dp, "Edit", editAction).build()
         manager.notify(1000, b)

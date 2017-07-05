@@ -42,6 +42,7 @@ class AdderActivity : AppCompatActivity() {
         }
 
         var b: Boolean? = null
+        Realm.init(this)
         val real: Realm = Realm.getDefaultInstance()
         var t: Task = Task()
         if (!real.isInTransaction) {
