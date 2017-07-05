@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
+import java.util.*
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
@@ -42,16 +43,21 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*val al = alert{
-            verticalLayout {
-                imageView(R.drawable.aflogo)
+        info(intent.getIntExtra("taskprimk", -1))
+        if (intent.getIntExtra("taskprimk", -1) != -1) {
 
-            }
+            val taskpk = intent.getIntExtra("taskprimk", 0)
+            info(taskpk)
+            Realm.init(this)
+            val r = Realm.getDefaultInstance()
+            r.beginTransaction()
+            val t = r.where(Task::class.java).equalTo("primk", taskpk).findFirst()
+            t.done = true
+            t.datedone = Calendar.getInstance().timeInMillis
+        }
 
 
 
-        }.show()
-*/
 
         toolbara = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbara)
