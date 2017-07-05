@@ -5,13 +5,17 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.mikepenz.fastadapter.items.AbstractItem
 import io.realm.Realm
 import io.realm.RealmResults
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
+import org.jetbrains.anko.info
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +23,7 @@ import java.util.*
 /**
  * Created by aayushf on 13/6/17.
  */
-class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.ViewHolder>() {
+class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.ViewHolder>(), AnkoLogger {
     val sdf: SimpleDateFormat = SimpleDateFormat("EEE - dd MMM")
     var taskfont: Typeface? = null
     var tagfont: Typeface? = null
@@ -53,14 +57,6 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
 
         }
         holder?.tvtask?.onClick {
-            if (holder.btndonecv?.visibility == View.GONE) {
-                holder.btndonecv.visibility = View.VISIBLE
-                holder.btndeletecv?.visibility = View.VISIBLE
-            } else {
-                holder.btndonecv?.visibility = View.GONE
-                holder.btndeletecv?.visibility = View.GONE
-
-            }
 
 
         }
@@ -84,6 +80,23 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
             r.copyToRealmOrUpdate(task)
             r.commitTransaction()
         }
+        holder?.btndowncv?.onClick {
+            val lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            lp.addRule(RelativeLayout.BELOW, R.id.btndeletecard)
+            info("btndown")
+            if (holder.btndonecv?.visibility == View.GONE) {
+                holder.btndonecv.visibility = View.VISIBLE
+                holder.btndeletecv?.visibility = View.VISIBLE
+                info(true)
+                holder?.btndowncv.layoutParams = lp
+            } else {
+                holder.btndonecv?.visibility = View.GONE
+                holder.btndeletecv?.visibility = View.GONE
+
+            }
+
+
+        }
 
     }
 
@@ -102,6 +115,7 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
         val tvdateadded: TextView? = itemView?.find(R.id.dateaddedtvcard)
         val tvdatepending: TextView? = itemView?.find(R.id.datependingtvcard)
         val btndeletecv: Button? = itemView?.find(R.id.btndeletecard)
+        val btndowncv: Button? = itemView?.find(R.id.downbtn)
 
 
     }
