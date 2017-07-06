@@ -101,10 +101,12 @@
 
                 <com.mikepenz.iconics.view.IconicsButton
                     android:id="@+id/downbtn"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:text="{cmd_chevron_double_down}" />
+                    android:text="{cmd_chevron_double_down}"
+                    android:textColor="#FF000000" />
 
             </RelativeLayout>
 

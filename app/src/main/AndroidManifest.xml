@@ -22,11 +22,11 @@
         <activity
             android:name=".AdderActivity"
             android:label="@string/title_activity_adder"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/MaterialDrawerTheme" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/MaterialDrawerTheme"></activity>
 
         <receiver android:name=".Notifier" />
     </application>

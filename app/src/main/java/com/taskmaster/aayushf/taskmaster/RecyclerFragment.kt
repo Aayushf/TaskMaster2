@@ -115,6 +115,7 @@ class RecyclerFragment : Fragment(), AnkoLogger {
 
         })
         fadap.filter(tagtodisplay)
+
     }
 
 }

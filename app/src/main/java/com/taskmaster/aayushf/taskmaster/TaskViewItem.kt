@@ -56,10 +56,6 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
             else -> "Not Specified"
 
         }
-        holder?.tvtask?.onClick {
-
-
-        }
         holder?.tvdatepending?.text = "{cmd_calendar_clock} ${datependingstr}"
         holder?.btndeletecv?.onClick {
             val r: Realm = Realm.getDefaultInstance()
@@ -69,6 +65,10 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
             r.commitTransaction()
 
         }
+        if ((task as Task).done == true) {
+            holder?.btndonecv?.text = "{cmd_undo}Undo"
+
+        }
 
 
 
@@ -76,7 +76,7 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
         holder?.btndonecv?.onClick {
             val r: Realm = Realm.getDefaultInstance()
             r.beginTransaction()
-            (task as Task).done = true
+            (task as Task).done = !(task as Task).done!!
             r.copyToRealmOrUpdate(task)
             r.commitTransaction()
         }
@@ -89,9 +89,12 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
                 holder.btndeletecv?.visibility = View.VISIBLE
                 info(true)
                 holder?.btndowncv.layoutParams = lp
+                holder?.btndowncv.text = "{cmd_chevron_double_up}"
             } else {
                 holder.btndonecv?.visibility = View.GONE
                 holder.btndeletecv?.visibility = View.GONE
+                holder?.btndowncv.text = "{cmd_chevron_double_down}"
+
 
             }
 

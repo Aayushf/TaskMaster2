@@ -35,17 +35,25 @@
                     android:layout_gravity="top"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:fillViewport="true">
                 <EditText
                     android:id="@+id/ettask"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:layout_below="@+id/toolbar"
                     android:layout_gravity="bottom"
-                    android:hint="Enter Task Here"
+                    android:hint="Enter Task Here \n"
+                    android:inputType="textMultiLine"
+                    android:maxLines="7"
+                    android:minLines="3"
                     android:textSize="40dp"
 
                     />
+                </ScrollView>
             </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -60,7 +68,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabcolour"
@@ -68,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="bottom|start" />
+        app:layout_anchorGravity="bottom|start"
+        app:srcCompat="@drawable/ic_palette_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
