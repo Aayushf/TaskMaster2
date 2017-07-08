@@ -16,12 +16,9 @@ import android.widget.EditText
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_adder.*
 import kotlinx.android.synthetic.main.content_adder.*
-import org.jetbrains.anko.alert
+import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.themedAlertDialogLayout
-import org.jetbrains.anko.button
 import org.jetbrains.anko.sdk25.coroutines.onClick
-import org.jetbrains.anko.selector
-import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -97,7 +94,7 @@ class AdderActivity : AppCompatActivity() {
             alert {
                 var c: Calendar = Calendar.getInstance()
                 themedAlertDialogLayout {
-
+                    backgroundColor = 0x00000000
                     button {
                         text = "Date?"
                         onClick {

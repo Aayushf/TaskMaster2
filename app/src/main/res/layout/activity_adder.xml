@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -19,14 +19,15 @@
 
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="snap">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -35,15 +36,10 @@
                     android:layout_gravity="top"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:fillViewport="true">
                 <EditText
                     android:id="@+id/ettask"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/toolbar"
                     android:layout_gravity="bottom"
                     android:hint="Enter Task Here \n"
@@ -53,7 +49,6 @@
                     android:textSize="40dp"
 
                     />
-                </ScrollView>
             </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -65,9 +60,8 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <android.support.design.widget.FloatingActionButton
@@ -75,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_anchor="@+id/app_bar"
+        app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|start"
         app:srcCompat="@drawable/ic_palette_black_24dp" />
 

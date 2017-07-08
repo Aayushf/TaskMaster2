@@ -103,17 +103,20 @@ class RecyclerFragment : Fragment(), AnkoLogger {
 
     }
 
-    fun refreshFragment(tagtodisplay: String) {
+    fun refreshFragment(tagtodisplay: String?) {
         info("In The Refresher " + tagtodisplay)
         val rv: RecyclerView = v.findViewById(R.id.rvfrag) as RecyclerView
         val fadap: FastItemAdapter<TaskViewItem> = rv.adapter as FastItemAdapter<TaskViewItem>
         fadap.itemFilter.withFilterPredicate(IItemAdapter.Predicate { item, constraint ->
-
-            val b = !Realm.getDefaultInstance().where(Task::class.java).equalTo("primk", (item as TaskViewItem).taskpk).findFirst().tag?.contains(tagtodisplay)!!
+            if (constraint == null) {
+                return@Predicate false
+            }
+            val b = !Realm.getDefaultInstance().where(Task::class.java).equalTo("primk", (item as TaskViewItem).taskpk).findFirst().tag?.contains(tagtodisplay!!)!!
             info(b)
             return@Predicate b
 
         })
+
         fadap.filter(tagtodisplay)
 
     }

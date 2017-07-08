@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import io.realm.Realm
 import io.realm.RealmResults
@@ -131,9 +132,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             }
 
         }
+        dwr.addItem(PrimaryDrawerItem().withName("All Tags").withSelectable(true).withOnDrawerItemClickListener { view, position, drawerItem ->
+            mSectionsPagerAdapter?.setTagToDisplay(null)
+            true
+        })
 
         allTags.forEach { tag: String? ->
-            dwr.addItem(SecondaryDrawerItem().withName(tag).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
+            dwr.addItem(PrimaryDrawerItem().withName(tag).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
                 info(tag)
                 mSectionsPagerAdapter?.setTagToDisplay(tag!!)
                 true

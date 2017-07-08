@@ -76,7 +76,7 @@ class TaskViewItem(var task: Task?) : AbstractItem<TaskViewItem, TaskViewItem.Vi
         holder?.btndonecv?.onClick {
             val r: Realm = Realm.getDefaultInstance()
             r.beginTransaction()
-            (task as Task).done = !(task as Task).done!!
+            (task as Task).toggleDone()
             r.copyToRealmOrUpdate(task)
             r.commitTransaction()
         }

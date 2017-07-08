@@ -79,41 +79,64 @@
 
         </android.support.v7.widget.CardView>
 
-        <com.mikepenz.iconics.view.IconicsButton
-            android:id="@+id/btndateadded"
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvdateadded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/cvpoints"
-            android:layout_marginTop="17dp"
-            android:text="{cmd_calendar_plus}Added on"
-            android:textColor="#FFFFFFFF"
-            android:textSize="20sp" />
+            android:layout_marginTop="36dp">
 
-        <com.mikepenz.iconics.view.IconicsButton
-            android:id="@+id/btndatedue"
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+            <com.mikepenz.iconics.view.IconicsButton
+                android:id="@+id/btndateadded"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+
+                android:layout_marginTop="17dp"
+                android:text="{cmd_calendar_plus}Added on"
+                android:textColor="#FFFFFFFF"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvdatedue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/btndateadded"
-            android:layout_marginTop="12dp"
-            android:text="{cmd_calendar_clock}Due on"
-            android:textColor="#FFFFFFFF"
-            android:textSize="20sp" />
+            android:layout_below="@+id/cvdateadded"
+            android:layout_marginTop="18dp">
 
+            <com.mikepenz.iconics.view.IconicsButton
+                android:id="@+id/btndatedue"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="12dp"
+                android:text="{cmd_calendar_clock}Due on"
+                android:textColor="#FFFFFFFF"
+                android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/cvdatedue"
+            android:layout_marginTop="24dp">
         <com.mikepenz.iconics.view.IconicsButton
             android:id="@+id/btnnotification"
             style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/btndatedue"
             android:layout_marginTop="13dp"
             android:text="{gmi_notifications_add} Notify"
             android:textColor="#FFFFFFFF"
             android:textSize="20sp" />
+        </android.support.v7.widget.CardView>
 
 
     </RelativeLayout>

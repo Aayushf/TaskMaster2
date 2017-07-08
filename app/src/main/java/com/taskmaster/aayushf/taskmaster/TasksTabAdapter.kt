@@ -14,7 +14,7 @@ import org.jetbrains.anko.info
 class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm), AnkoLogger {
     var tagtodisplay: String? = null
 
-    fun setTagToDisplay(tagtodisplay: String) {
+    fun setTagToDisplay(tagtodisplay: String?) {
         this.tagtodisplay = tagtodisplay
         this@TasksTabAdapter.notifyDataSetChanged()
 
@@ -22,7 +22,7 @@ class TasksTabAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm), AnkoLogge
     override fun getItemPosition(`object`: Any?): Int {
         Log.d("Adapter", "getItemAtPosition$tagtodisplay")
         val rf = `object` as RecyclerFragment?
-        rf!!.refreshFragment(tagtodisplay!!)
+        rf!!.refreshFragment(tagtodisplay)
         return super.getItemPosition(`object`)
     }
 
