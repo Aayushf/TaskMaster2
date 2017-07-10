@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import co.zsmb.materialdrawerkt.builders.accountHeader
 import co.zsmb.materialdrawerkt.builders.drawer
 import co.zsmb.materialdrawerkt.draweritems.profile.profile
+import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import io.realm.Realm
@@ -120,27 +121,16 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             }
         }
         Realm.init(this)
-        var r: Realm = Realm.getDefaultInstance()
-        var results: RealmResults<Task> = r.where(Task::class.java).findAll()
-        i = results.size
-        var allTags: MutableList<String> = arrayListOf()
-        results.forEach { t: Task? ->
-            t?.tag?.split("\n")?.forEach { s: String ->
-                if (!allTags.contains(s)) {
-                    allTags.add(s)
-                }
-            }
-
-        }
-        dwr.addItem(PrimaryDrawerItem().withName("All Tags").withSelectable(true).withOnDrawerItemClickListener { view, position, drawerItem ->
+        var allTags = Task.getAllTags()
+        dwr.addItem(PrimaryDrawerItem().withName("All Tags").withSelectable(true).withBadge(Realm.getDefaultInstance().where(Task::class.java).count().toString()).withBadgeStyle(BadgeStyle(Task.colours[4], Task.colours[4])).withOnDrawerItemClickListener { view, position, drawerItem ->
             mSectionsPagerAdapter?.setTagToDisplay(null)
             true
         })
 
-        allTags.forEach { tag: String? ->
-            dwr.addItem(PrimaryDrawerItem().withName(tag).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
+        allTags.forEach { tag: Pair<String, Int> ->
+            dwr.addItem(PrimaryDrawerItem().withName(tag.first).withBadge(tag.second.toString()).withBadgeStyle(BadgeStyle(Task.colours[4], Task.colours[4])).withSelectable(true).withOnDrawerItemClickListener { _, _, _ ->
                 info(tag)
-                mSectionsPagerAdapter?.setTagToDisplay(tag!!)
+                mSectionsPagerAdapter?.setTagToDisplay(tag.first)
                 true
             })
 

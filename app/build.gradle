@@ -48,4 +48,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.mikepenz:fastadapter-commons:2.6.0@aar'
     testCompile 'junit:junit:4.12'
+
 }
