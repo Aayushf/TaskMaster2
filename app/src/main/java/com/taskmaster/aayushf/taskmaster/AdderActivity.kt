@@ -38,7 +38,6 @@ class AdderActivity : AppCompatActivity() {
 
         }
 
-        var b: Boolean? = null
         Realm.init(this)
         val real: Realm = Realm.getDefaultInstance()
         var t: Task = Task()
@@ -56,9 +55,7 @@ class AdderActivity : AppCompatActivity() {
             etpoints.setText(recievedtask.points.toString())
             ettag.setText(recievedtask.tag)
             t = recievedtask
-            b = true
         } else {
-            b = false
         }
         app_bar.bringToFront()
 
@@ -144,15 +141,6 @@ class AdderActivity : AppCompatActivity() {
             Realm.init(this)
             Log.d(t.task, t.tag)
             Log.d("Adder", t.toString())
-            val r: Realm = Realm.getDefaultInstance()
-            var n: Number? = r.where(Task::class.java).max("primk")
-            if (b == false) {
-                if (n != null) {
-                    t.primk = n.toInt() + 1
-                } else {
-                    t.primk = 0
-                }
-            }
             if (!real.isInTransaction) {
                 real.beginTransaction()
                 real.copyToRealmOrUpdate(t)

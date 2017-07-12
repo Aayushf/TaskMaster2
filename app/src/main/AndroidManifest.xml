@@ -26,9 +26,19 @@
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:theme="@style/MaterialDrawerTheme"></activity>
+            android:theme="@style/MaterialDrawerTheme" />
 
         <receiver android:name=".Notifier" />
+
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/title_activity_stats"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taskmaster.aayushf.taskmaster.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

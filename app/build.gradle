@@ -47,6 +47,7 @@ dependencies {
     compile 'com.mikepenz:material-design-iconic-typeface:2.2.0.3@aar'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.mikepenz:fastadapter-commons:2.6.0@aar'
+    compile 'com.diogobernardino:williamchart:2.5.0'
     testCompile 'junit:junit:4.12'
 
 }

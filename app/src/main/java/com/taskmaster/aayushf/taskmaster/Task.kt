@@ -15,6 +15,15 @@ open class Task(var task: String = "Not Specified", var tag: String? = null, var
         get
         set
 
+    init {
+        val r: Realm = Realm.getDefaultInstance()
+        var n: Number? = r.where(Task::class.java).max("primk")
+        if (n == null) {
+            this.primk = 0
+        } else {
+            this.primk = n.toInt() + 1
+        }
+    }
     fun toggleDone() {
         if (this.done) {
             this.done = false
@@ -28,7 +37,7 @@ open class Task(var task: String = "Not Specified", var tag: String? = null, var
         val coloursnames = listOf("White", "Tomato", "Tangerine", "Banana", "Basil", "Sage", "Peacock", "Blueberry", "Lavender", "Grape", "Flamingo", "Graphite")
         val quotes = listOf("It's Not Over Until You Succeed.", "The Fact That You Are Not Where You Want To Be Should Be Enough Inspiration.")
         var colours = listOf(0xFF000000.toInt(), 0xFFD50000.toInt(), 0xFFF4511E.toInt(), 0xFFF6BF26.toInt(), 0xFF0B8043.toInt(), 0xFF33B679.toInt(), 0xFF039BE5.toInt(), 0xFF3F51B5.toInt(), 0xFF7986CB.toInt(), 0xFF8E24AA.toInt(), 0xFFE67C73.toInt(), 0xFF616161.toInt())
-        fun getAllTags(): MutableList<Pair<String, Int>> {
+        fun getAllTagsTaskNo(): MutableList<Pair<String, Int>> {
             var r: Realm = Realm.getDefaultInstance()
             var results = r.where(Task::class.java).findAll()
             var allTags: MutableList<Pair<String, Int>> = arrayListOf()
@@ -48,6 +57,28 @@ open class Task(var task: String = "Not Specified", var tag: String? = null, var
 
 
         }
+
+        fun getAllTagsPoints(): MutableList<Pair<String, Int>> {
+            var r: Realm = Realm.getDefaultInstance()
+            var results = r.where(Task::class.java).findAll()
+            var allTags: MutableList<Pair<String, Int>> = arrayListOf()
+            results.forEach { t: Task? ->
+                t?.tag?.split("\n")?.forEach { s: String ->
+
+                    var i: Int = r.where(Task::class.java).contains("tag", s).sum("points").toInt()
+                    if (!allTags.contains(Pair(s, i))) {
+                        allTags.add(Pair(s, i))
+                    }
+
+
+                }
+
+            }
+            return allTags
+
+
+        }
+
     }
 
 

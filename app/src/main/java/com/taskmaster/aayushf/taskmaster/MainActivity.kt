@@ -121,7 +121,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             }
         }
         Realm.init(this)
-        var allTags = Task.getAllTags()
+        dwr.addItem(PrimaryDrawerItem().withName("Stats").withOnDrawerItemClickListener { _, _, _ ->
+            startActivity<StatsActivity>()
+            true
+        })
+        var allTags = Task.getAllTagsTaskNo()
         dwr.addItem(PrimaryDrawerItem().withName("All Tags").withSelectable(true).withBadge(Realm.getDefaultInstance().where(Task::class.java).count().toString()).withBadgeStyle(BadgeStyle(Task.colours[4], Task.colours[4])).withOnDrawerItemClickListener { view, position, drawerItem ->
             mSectionsPagerAdapter?.setTagToDisplay(null)
             true
