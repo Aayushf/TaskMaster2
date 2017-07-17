@@ -2,6 +2,7 @@ package com.taskmaster.aayushf.taskmaster
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
@@ -15,13 +16,19 @@ import co.zsmb.materialdrawerkt.draweritems.profile.profile
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
+import com.squareup.picasso.Picasso
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.startActivity
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
 import java.util.*
+import android.os.StrictMode
+
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
 
@@ -46,6 +53,8 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         info(intent.getIntExtra("taskprimk", -1))
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
         if (intent.getIntExtra("taskprimk", -1) != -1) {
 
             val taskpk = intent.getIntExtra("taskprimk", 0)
@@ -57,13 +66,23 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             t.done = true
             t.datedone = Calendar.getInstance().timeInMillis
         }
+        val url: URL = URL("https://drive.google.com/uc?export=download&id=0B6OgAqyViw4oWUUzeTFXWU11NkE")
+        var br: BufferedReader = BufferedReader(InputStreamReader(url.openStream()))
+
+
+        var strs: MutableList<String> = arrayListOf()
+        br!!.readLines().forEach { t: String? ->
+            info(t)
+            strs.add(t!!)
+        }
+
+
 
 
 
 
         toolbara = findViewById(R.id.toolbar) as Toolbar?
         setSupportActionBar(toolbara)
-        toolbartv.typeface = Typeface.createFromAsset(this.assets, "font/Bitter-Bold.ttf")
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = TasksTabAdapter(supportFragmentManager)
@@ -71,10 +90,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container) as ViewPager?
         mViewPager!!.adapter = mSectionsPagerAdapter
-        title = ""
+        title = "Task Master"
+        info(strs.size)
 
 
         val tabLayout = findViewById(R.id.tabs) as TabLayout?
+        val r: Random = Random()
+        Picasso.with(this).load(strs[r.nextInt(strs.size)]).into(iv)
         tabLayout?.setupWithViewPager(mViewPager)
         c = this
         createDrawer()

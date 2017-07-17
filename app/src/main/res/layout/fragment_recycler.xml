@@ -5,10 +5,13 @@
     tools:context="com.taskmaster.aayushf.taskmaster.RecyclerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rvfrag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+
+        >
 
     </android.support.v7.widget.RecyclerView>
 </FrameLayout>
