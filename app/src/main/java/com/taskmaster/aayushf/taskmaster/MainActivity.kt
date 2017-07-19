@@ -28,6 +28,8 @@ import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
 import android.os.StrictMode
+import android.view.Menu
+import android.view.MenuItem
 
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
@@ -66,15 +68,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             t.done = true
             t.datedone = Calendar.getInstance().timeInMillis
         }
-        val url: URL = URL("https://drive.google.com/uc?export=download&id=0B6OgAqyViw4oWUUzeTFXWU11NkE")
-        var br: BufferedReader = BufferedReader(InputStreamReader(url.openStream()))
 
-
-        var strs: MutableList<String> = arrayListOf()
-        br!!.readLines().forEach { t: String? ->
-            info(t)
-            strs.add(t!!)
-        }
 
 
 
@@ -91,12 +85,9 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         mViewPager = findViewById(R.id.container) as ViewPager?
         mViewPager!!.adapter = mSectionsPagerAdapter
         title = "Task Master"
-        info(strs.size)
-
 
         val tabLayout = findViewById(R.id.tabs) as TabLayout?
-        val r: Random = Random()
-        Picasso.with(this).load(strs[r.nextInt(strs.size)]).into(iv)
+
         tabLayout?.setupWithViewPager(mViewPager)
         c = this
         createDrawer()
@@ -108,12 +99,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
                     .setAction("Action", null).show()
             startActivity<AdderActivity>()
         }
+        updateImage()
 
 
     }
 
 
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -127,12 +119,13 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
 
         if (id == R.id.action_settings) {
+            updateImage()
             return true
         }
 
         return super.onOptionsItemSelected(item)
     }
-*/
+
     fun createDrawer() {
         var dwr = drawer {
             toolbar = toolbara!!
@@ -159,6 +152,30 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         }
 
 
+    }
+
+    fun updateImage() {
+        val thread = Thread(Runnable {
+            kotlin.run {
+                val url: URL = URL("https://drive.google.com/uc?export=download&id=0B6OgAqyViw4oWUUzeTFXWU11NkE")
+                var br: BufferedReader = BufferedReader(InputStreamReader(url.openStream()))
+
+
+                var strs: MutableList<String> = arrayListOf()
+                br!!.readLines().forEach { t: String? ->
+                    info(t)
+                    strs.add(t!!)
+                }
+                iv.post {
+                    val r: Random = Random()
+                    Picasso.with(this).load(strs[r.nextInt(strs.size)]).into(iv)
+
+
+                }
+
+            }
+        })
+        thread.start()
     }
 
     /**
